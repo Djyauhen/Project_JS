@@ -1,4 +1,5 @@
 import {Chart} from "chart.js/auto"
+import {Sidebars} from "../../scripts/sidebars.js";
 
 export class Main {
     constructor() {
@@ -38,6 +39,8 @@ export class Main {
                 radius: 180
             }
         });
+
+        new Sidebars();
     }
 }
 

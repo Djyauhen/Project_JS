@@ -9,6 +9,7 @@ import {Main} from "./components/main.js";
 export class Router {
     constructor() {
         this.contentElement = document.getElementById('content');
+        this.stylesElement = document.getElementById('style');
         this.stylesElementOne = document.getElementById('stylesOne');
         this.stylesElementTwo = document.getElementById('stylesTwo');
         this.titleElement = document.getElementById('titleUp');
@@ -21,7 +22,8 @@ export class Router {
                 route: '#/',
                 title: 'Вход',
                 template: 'templates/login.html',
-                styleOne: 'styles/login.css',
+                style: 'styles/login.css',
+                styleOne: '',
                 styleTwo: '',
                 load: () => {
                     new Form('login');
@@ -31,7 +33,8 @@ export class Router {
                 route: '#/signup',
                 title: 'Регистрация',
                 template: 'templates/signup.html',
-                styleOne: 'styles/login.css',
+                style: 'styles/login.css',
+                styleOne: '',
                 styleTwo: '',
                 load: () => {
                     new Form('signup');
@@ -42,6 +45,7 @@ export class Router {
                 route: '#/main',
                 title: 'Главная',
                 template: 'templates/main.html',
+                style: 'styles/generalStyle.css',
                 styleOne: 'styles/sidebars.css',
                 styleTwo: 'styles/main.css',
                 load: () => {
@@ -107,6 +111,7 @@ export class Router {
         }
 
         this.contentElement.innerHTML = await fetch(newRoute.template).then(response => response.text());
+        this.stylesElement.setAttribute('href', newRoute.style);
         this.stylesElementOne.setAttribute('href', newRoute.styleOne);
         this.stylesElementTwo.setAttribute('href', newRoute.styleTwo);
         this.titleElement.innerText = newRoute.title;

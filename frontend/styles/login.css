@@ -7,6 +7,10 @@ input {
     color: black;
 }
 
+#sidebar {
+    display: none;
+}
+
 .main {
     margin: 0 auto;
 }

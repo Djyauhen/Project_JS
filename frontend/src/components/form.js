@@ -1,13 +1,22 @@
-// import {CustomHttp} from "../service/custom-http.js";
-// import {Auth} from "../service/auth.js";
+import {CustomHttp} from "../service/custom-http.js";
+import {Auth} from "../service/auth.js";
+import config from "../../config/config.js";
+import {Sidebars} from "../service/sidebars.js";
 
 export class Form {
 
     constructor(page) {
 
-        // this.agreeElement = null;
+        this.agreeElement = null;
         this.processElement = null;
         this.page = page;
+
+        const accessToken = localStorage.getItem(Auth.accessTokenKey);
+
+        if (accessToken) {
+            location.href = '/#/main';
+            return;
+        }
 
         this.fields = [
             {
@@ -47,20 +56,13 @@ export class Form {
 
         this.processElement = document.getElementById('process');
         this.processElement.onclick = function () {
-            that.processForm()
+            that.processForm();
         }
-
-        // this.agreeElement = document.getElementById('remember');
-        // this.agreeElement.onchange = function () {
-        //     that.validateForm();
-        // }
     }
 
 
     validateField(field, element) {
-        if (!element.value
-            || !element.value.match(field.regex)
-        ) {
+        if (!element.value || !element.value.match(field.regex)) {
             element.style.borderColor = "red";
             field.valid = false;
         } else {
@@ -72,9 +74,7 @@ export class Form {
 
     validateForm() {
         const valudForm = this.fields.every(item => item.valid);
-        const isValid =
-            // this.agreeElement.checked &&
-            valudForm;
+        const isValid = this.agreeElement ? this.agreeElement.checked && valudForm : valudForm;
         if (isValid) {
             this.processElement.removeAttribute('disabled');
         } else {
@@ -83,15 +83,54 @@ export class Form {
         return isValid;
     }
 
-    processForm() {
+    async processForm() {
         if (this.validateForm()) {
 
-            let paramString = '';
-            this.fields.forEach(item => {
-                paramString += (!paramString ? '?' : "&") + item.name + "=" + item.element.value;
-            })
+            const email = this.fields.find(item => item.name === 'email').element.value;
+            const password = this.fields.find(item => item.name === 'password').element.value;
 
-            location.href = '#/main';
+            if (this.page === 'signup') {
+                const name = this.fields.find(item => item.name === 'name').element.value;
+                try {
+                    const result = await CustomHttp.request(config.host + '/signup', 'POST', {
+                        name: name,
+                        email: email,
+                        password: password,
+                        passwordRepeat: password
+                    })
+
+                    if (result) {
+                        if (!result.user) {
+                            throw new Error(result.message);
+                        }
+                    }
+                } catch (error) {
+                    return console.log(error);
+                }
+
+            }
+            try {
+                const result = await CustomHttp.request(config.host + '/login', 'POST', {
+                    email: email,
+                    password: password
+                })
+
+                if (result) {
+                    if (!result.tokens || !result.user) {
+                        throw new Error(result.message);
+                    }
+
+                    Auth.setTokens(result.tokens.accessToken, result.tokens.refreshToken);
+                    Auth.setUserInfo({
+                        fullName: result.user.name,
+                        userId: result.user.id,
+                        email: email,
+                    })
+                    location.href = '/#/main';
+                }
+            } catch (error) {
+                console.log(error);
+            }
         }
     }
 }

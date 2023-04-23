@@ -1,10 +1,7 @@
 import {Form} from "./components/form.js";
 import {Main} from "./components/main.js";
-// import {Choice} from "./components/choice.js";
-// import {Test} from "./components/test.js";
-// import {Result} from "./components/result.js";
-// import {Answers} from "./components/answers.js";
-// import {Auth} from "./service/auth.js";
+import {Auth} from "./service/auth.js";
+import {CategoriesPage} from "./components/incomes.js";
 
 export class Router {
     constructor() {
@@ -15,6 +12,7 @@ export class Router {
         this.titleElement = document.getElementById('titleUp');
         // this.profileElement = document.getElementById('profile');
         // this.profileFullNameElement = document.getElementById('profile-full-name');
+        this.sidebar = document.getElementById('sidebar');
 
 
         this.routes = [
@@ -22,8 +20,7 @@ export class Router {
                 route: '#/',
                 title: 'Вход',
                 template: 'templates/login.html',
-                style: 'styles/login.css',
-                styleOne: '',
+                styleOne: 'styles/login.css',
                 styleTwo: '',
                 load: () => {
                     new Form('login');
@@ -33,8 +30,7 @@ export class Router {
                 route: '#/signup',
                 title: 'Регистрация',
                 template: 'templates/signup.html',
-                style: 'styles/login.css',
-                styleOne: '',
+                styleOne: 'styles/login.css',
                 styleTwo: '',
                 load: () => {
                     new Form('signup');
@@ -45,32 +41,44 @@ export class Router {
                 route: '#/main',
                 title: 'Главная',
                 template: 'templates/main.html',
-                style: 'styles/generalStyle.css',
-                styleOne: 'styles/sidebars.css',
+                styleOne: 'styles/generalStyle.css',
                 styleTwo: 'styles/main.css',
                 load: () => {
                     new Main();
                 }
             },
 
-            // {
-            //     route: '#/choice',
-            //     title: 'Выбор теста',
-            //     template: 'templates/choice.html',
-            //     styles: 'styles/choice.css',
-            //     load: () => {
-            //         new Choice();
-            //     }
-            // },
-            // {
-            //     route: '#/test',
-            //     title: 'Тест',
-            //     template: 'templates/test.html',
-            //     styles: 'styles/test.css',
-            //     load: () => {
-            //         new Test();
-            //     }
-            // },
+            {
+                route: '#/incomes',
+                title: 'Выбор теста',
+                template: 'templates/income.html',
+                styleOne: 'styles/generalStyle.css',
+                styleTwo: 'styles/income.css',
+                load: () => {
+                    new CategoriesPage();
+                }
+            },
+
+            {
+                route: '#/expenses',
+                title: 'Выбор теста',
+                template: 'templates/income.html',
+                styleOne: 'styles/generalStyle.css',
+                styleTwo: 'styles/income.css',
+                load: () => {
+                    new CategoriesPage();
+                }
+            },
+            {
+                route: '#/createincomes',
+                title: 'Тест',
+                template: 'templates/createIncomes.html',
+                styleOne: 'styles/generalStyle.css',
+                styleTwo: 'styles/income.css',
+                load: () => {
+
+                }
+            },
             // {
             //     route: '#/result',
             //     title: 'Результаты теста',
@@ -94,11 +102,12 @@ export class Router {
 
     async openRoute() {
         const urlRoute = window.location.hash.split('?')[0];
-        // if (urlRoute === '#/') {
-        //     Auth.logout();
-        //     window.location.href = '#/';
-        //     return;
-        // }
+
+        if (urlRoute === '#/logout') {
+            Auth.logout();
+            window.location.href = '#/';
+            return;
+        }
 
 
         const newRoute = this.routes.find(item => {
@@ -110,18 +119,17 @@ export class Router {
             return;
         }
 
+        const userInfo = Auth.getUserInfo();
+        const accessToken = localStorage.getItem(Auth.accessTokenKey);
+
         this.contentElement.innerHTML = await fetch(newRoute.template).then(response => response.text());
-        this.stylesElement.setAttribute('href', newRoute.style);
         this.stylesElementOne.setAttribute('href', newRoute.styleOne);
         this.stylesElementTwo.setAttribute('href', newRoute.styleTwo);
         this.titleElement.innerText = newRoute.title;
 
-        // const userInfo = Auth.getUserInfo();
-        // const accessToken = localStorage.getItem(Auth.accessTokenKey);
-
         // if (userInfo && accessToken) {
         //     this.profileElement.style.display = 'flex';
-        //     this.profileFullNameElement.innerText = userInfo.fullName;
+        //     this.profileFullNameElement.innerText = userInfo.name;
         // } else {
         //     this.profileElement.style.display = 'none';
         // }

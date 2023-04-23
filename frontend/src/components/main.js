@@ -1,46 +1,37 @@
-import {Chart} from "chart.js/auto"
-import {Sidebars} from "../../scripts/sidebars.js";
+import {Sidebars} from "../service/sidebars.js";
+import {GetCategories} from "../service/getCategories.js";
+import {Chart} from "chart.js/auto";
 
 export class Main {
     constructor() {
-
-
-        const ctx1 = document.getElementById('catIncomes');
         const ctx2 = document.getElementById('catExpenses');
-        const category = ['Red', 'Blue', 'Yellow', 'Green', 'Purple'];
-        const categoryData = [1123, 243, 456, 789, 90];
+        const ctx1 = document.getElementById('catIncomes');
+        const categoryData = [123, 321, 321, 345, 123, 321, 321, 345, 1231];
 
-        new Chart(ctx1, {
-            type: 'pie',
-            data: {
-                labels: category,
-                datasets: [{
-                    data: categoryData,
-                    label: "$",
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                radius: 180
-            }
-        });
-
-        new Chart(ctx2, {
-            type: 'pie',
-            data: {
-                labels: category,
-                datasets: [{
-                    data: categoryData,
-                    label: "$",
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                radius: 180
-            }
-        });
+        this.charts('income', categoryData, ctx1).then();
+        this.charts('expense', categoryData, ctx2).then();
 
         new Sidebars();
+    }
+
+    async charts(categories, categoryData, ctx) {
+        let category = await new GetCategories(categories);
+        let categoryTitles = category.map(({title}) => title);
+
+        await new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: categoryTitles,
+                datasets: [{
+                    data: categoryData,
+                    label: "$",
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                radius: 180
+            }
+        });
     }
 }
 

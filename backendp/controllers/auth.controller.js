@@ -37,6 +37,7 @@ class AuthController {
             user = {
                 id: id,
                 name: req.body.name,
+                lastName: req.body.lastName,
                 email: req.body.email,
                 password: hashPassword,
                 refreshToken: null
@@ -44,7 +45,7 @@ class AuthController {
             UserModel.create(user);
 
             res.status(201).json({
-                user: {id: user.id, email: user.email, name: user.name},
+                user: {id: user.id, email: user.email, name: user.name, lastName: user.lastName},
             });
         } catch (err) {
             console.log(err);

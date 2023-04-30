@@ -9,57 +9,45 @@ export class Sidebars {
         const dropdownMenu = document.getElementById('dropdown-menu');
         const dropdownBtn = document.getElementById('dropdown-button');
         const mainBtn = document.getElementById('mainBtn');
-        const incomesExpenseBtn = document.getElementById('incomesExpenseBtn');
-        // const dropdownBtn = document.getElementById('dropdown-button');
-
-
-
+        const incomesBtn = document.getElementById('catIncomesBtn');
+        const expenseBtn = document.getElementById('catExpenseBtn');
+        const allBtn = document.getElementsByClassName('nav-link');
+        const incExpBtn = document.getElementById('incomesExpenseBtn');
         this.profileNameElement = document.getElementById('userName');
+        const img = document.getElementById('user-image');
+        const logout = document.getElementById('logout');
         this.balanceProfile = document.getElementById('balance');
+        const urlRoute = window.location.hash.split('?')[0];
+
+        delClass();
+        dropdownMenu.style.display = 'none';
+        dropdownBtn.style.transform = 'rotate(-90deg)';
+        logout.style.display = 'none';
+
+        if (urlRoute === "#/main") {
+            mainBtn.classList.add('active');
+        } if (urlRoute === "#/incexp") {
+            incExpBtn.classList.add('active');
+        } if (urlRoute === "#/incomes") {
+            dropdownMenu.style.display = 'flex';
+            dropdownBtn.style.transform = 'rotate(0)';
+            dropdownToggle.classList.add('active');
+            incomesBtn.classList.add('active');
+        } if (urlRoute === "#/expenses") {
+            dropdownMenu.style.display = 'flex';
+            dropdownBtn.style.transform = 'rotate(0)';
+            dropdownToggle.classList.add('active');
+            expenseBtn.classList.add('active');
+        }
 
 
-        if (dropdown.classList.value.split(' ').find(item => item === 'active')) {
+        if (dropdownToggle.classList.contains('active')) {
             dropdownMenu.style.display = 'flex';
             dropdownBtn.style.transform = 'rotate(0deg)';
         } else {
             dropdownMenu.style.display = 'none';
             dropdownBtn.style.transform = 'rotate(-90deg)';
         }
-
-        function minimize() {
-            if (dropdownMenu.style.display === 'flex') {
-                dropdownMenu.style.display = 'none';
-                dropdownBtn.style.transform = 'rotate(-90deg)';
-            } else {
-                dropdownMenu.style.display = 'flex';
-                dropdownBtn.style.transform = 'rotate(0deg)';
-            }
-        }
-
-        dropdownToggle.addEventListener("click", minimize);
-
-        let url = '';
-
-        mainBtn.click()
-
-        if (mainBtn.onclick) {
-           return url = '#/main';
-        } if (incomesExpenseBtn.onclick) {
-            url = '#/incomes';
-        }
-        function changePage(url) {
-            location.href = url;
-        }
-
-        // if (mainBtn.onclick) {
-        //     changePage('#/main');
-        // } if (incomesExpenseBtn.onclick) {
-        //     changePage('#/incomes');
-        // }
-
-        mainBtn.addEventListener('click', changePage);
-
-
 
 
         const userInfo = Auth.getUserInfo();
@@ -73,6 +61,52 @@ export class Sidebars {
             that.balanceProfile.innerText = data.balance;
         });
 
+        function mainBtnClick() {
+            location.href = '#/main';
+        }
+
+        function incExpBtnClick() {
+            location.href = '#/incexp';
+        }
+
+        function incomesBtnClick() {
+            location.href = '#/incomes';
+        }
+
+        function expenseBtnClick() {
+            location.href = '#/expenses';
+        }
+
+        function minimize() {
+            if (dropdownMenu.style.display === 'flex') {
+                dropdownToggle.classList.remove('active');
+                dropdownMenu.style.display = 'none';
+                dropdownBtn.style.transform = 'rotate(-90deg)';
+            }
+            else {
+                dropdownToggle.classList.add('active');
+                dropdownMenu.style.display = 'flex';
+                dropdownBtn.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function delClass() {
+            for (let i = 0; i < allBtn.length; i++) {
+                if (allBtn[i].classList.contains('active')) {
+                    allBtn[i].classList.remove("active");
+                }
+            }
+        }
+
+        img.onclick = () => {logout.style.display = 'flex'}
+
+        logout.onclick = () => {location.href = '#/logout'}
+
+        mainBtn.addEventListener('click', mainBtnClick);
+        incomesBtn.addEventListener('click', incomesBtnClick);
+        expenseBtn.addEventListener('click', expenseBtnClick);
+        incExpBtn.addEventListener('click', incExpBtnClick);
+        dropdownToggle.addEventListener("click", minimize);
     }
 
     async getBalance() {

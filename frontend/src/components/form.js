@@ -90,10 +90,12 @@ export class Form {
             const password = this.fields.find(item => item.name === 'password').element.value;
 
             if (this.page === 'signup') {
-                const name = this.fields.find(item => item.name === 'name').element.value;
+                const name = this.fields.find(item => item.name === 'name').element.value.split(' ')[0];
+                const lastName = this.fields.find(item => item.name === 'name').element.value.split(' ')[1];
                 try {
                     const result = await CustomHttp.request(config.host + '/signup', 'POST', {
                         name: name,
+                        lastName: lastName,
                         email: email,
                         password: password,
                         passwordRepeat: password

@@ -2,6 +2,8 @@ import {Form} from "./components/form.js";
 import {Main} from "./components/main.js";
 import {Auth} from "./service/auth.js";
 import {CategoriesPage} from "./components/incomes.js";
+import {CreateCategory} from "./components/createCategory";
+import {Incexp} from "./components/incexp";
 
 export class Router {
     constructor() {
@@ -49,8 +51,19 @@ export class Router {
             },
 
             {
+                route: '#/incexp',
+                title: 'Доходы & Расходы',
+                template: 'templates/incexp.html',
+                styleOne: 'styles/generalStyle.css',
+                styleTwo: 'styles/main.css',
+                load: () => {
+                    new Incexp();
+                }
+            },
+
+            {
                 route: '#/incomes',
-                title: 'Выбор теста',
+                title: 'Доходы',
                 template: 'templates/income.html',
                 styleOne: 'styles/generalStyle.css',
                 styleTwo: 'styles/income.css',
@@ -61,7 +74,7 @@ export class Router {
 
             {
                 route: '#/expenses',
-                title: 'Выбор теста',
+                title: 'Расходы',
                 template: 'templates/income.html',
                 styleOne: 'styles/generalStyle.css',
                 styleTwo: 'styles/income.css',
@@ -70,13 +83,23 @@ export class Router {
                 }
             },
             {
-                route: '#/createincomes',
-                title: 'Тест',
-                template: 'templates/createIncomes.html',
+                route: '#/createIncCat',
+                title: 'Создать категорию доходов',
+                template: 'templates/createCat.html',
                 styleOne: 'styles/generalStyle.css',
                 styleTwo: 'styles/income.css',
                 load: () => {
-
+                    new CreateCategory();
+                }
+            },
+            {
+                route: '#/createExpCat',
+                title: 'Создать категорию расходов',
+                template: 'templates/createCat.html',
+                styleOne: 'styles/generalStyle.css',
+                styleTwo: 'styles/income.css',
+                load: () => {
+                    new CreateCategory();
                 }
             },
             // {

@@ -6,30 +6,28 @@
 
         <div class="table">
             <div class="table-filters">
-                <button class="btn filter-btn active">Сегодня</button>
-                <button class="btn filter-btn">Неделя</button>
-                <button class="btn filter-btn">Месяц</button>
-                <button class="btn filter-btn">Год</button>
-                <button class="btn filter-btn">Все</button>
+                <button class="btn filter-btn active" id="today">Сегодня</button>
+                <button class="btn filter-btn" id="week">Неделя</button>
+                <button class="btn filter-btn" id="month">Месяц</button>
+                <button class="btn filter-btn" id="year">Год</button>
+                <button class="btn filter-btn" id="all">Все</button>
                 <button class="btn filter-btn">Интервал</button>
                 <div class="table-filters-date">
                     с
-                    <button class="btn filters-date-btn">Дата</button>
+                    <button class="btn filters-date-btn" id="dateFrom">Дата</button>
                     по
-                    <button class="btn filters-date-btn">Дата</button>
+                    <button class="btn filters-date-btn" id="dateTo">Дата</button>
                 </div>
             </div>
         </div>
 
         <div class="charts">
-            <div class="canvas catIncomes">
+            <div class="canvas catIncomes" id="canvasIncomes">
                 <h1>Доход</h1>
-                <canvas id="catIncomes"></canvas>
             </div>
             <div class="line"></div>
-            <div class="canvas catExpenses">
+            <div class="canvas catExpenses" id="canvasExpense">
                 <h1>Расход</h1>
-                <canvas id="catExpenses"></canvas>
             </div>
         </div>
     </div>

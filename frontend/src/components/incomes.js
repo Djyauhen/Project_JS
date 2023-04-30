@@ -9,10 +9,10 @@ export class CategoriesPage {
         const urlRoute = window.location.hash.split('?')[0];
         if (urlRoute === '#/incomes'){
             this.title.innerText = 'Доходы';
-            this.createCategoriesTable('income').then(() => new Popup());
+            this.createCategoriesTable('income').then(() => new Popup('income'));
         } if (urlRoute === '#/expenses') {
             this.title.innerText = 'Расходы';
-            this.createCategoriesTable('expense').then(() => new Popup());
+            this.createCategoriesTable('expense').then(() => new Popup('expense'));
         }
 
 
@@ -36,14 +36,23 @@ export class CategoriesPage {
             tableCat += categoryHTML;
         })
         this.catTable.innerHTML = tableCat + createCat;
-        this.changePage();
+        this.changePage(categories);
     }
 
-    changePage() {
+    changePage(categories) {
         const createBtn = document.getElementById('add-category-item');
-        function changePage() {
-            location.href = "#/createincomes"
+
+        if (categories === 'income') {
+            function changePageInc() {
+                location.href = "#/createIncCat";
+            }
+            createBtn.addEventListener("click", changePageInc);
         }
-        createBtn.addEventListener("click", changePage);
+        if (categories === 'expense') {
+            function changePageExp() {
+                location.href = "#/createExpCat";
+            }
+            createBtn.addEventListener("click", changePageExp);
+        }
     }
 }

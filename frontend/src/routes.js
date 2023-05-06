@@ -2,19 +2,16 @@ import {Form} from "./components/form.js";
 import {Main} from "./components/main.js";
 import {Auth} from "./service/auth.js";
 import {CategoriesPage} from "./components/incomes.js";
-import {CreateCategory} from "./components/createCategory";
-import {Incexp} from "./components/incexp";
+import {CreateCategory} from "./components/createCategory.js";
+import {Incexp} from "./components/incexp.js";
+import {CreateOperation} from "./components/createOperation.js";
 
 export class Router {
     constructor() {
         this.contentElement = document.getElementById('content');
-        this.stylesElement = document.getElementById('style');
         this.stylesElementOne = document.getElementById('stylesOne');
         this.stylesElementTwo = document.getElementById('stylesTwo');
         this.titleElement = document.getElementById('titleUp');
-        // this.profileElement = document.getElementById('profile');
-        // this.profileFullNameElement = document.getElementById('profile-full-name');
-        this.sidebar = document.getElementById('sidebar');
 
 
         this.routes = [
@@ -102,24 +99,16 @@ export class Router {
                     new CreateCategory();
                 }
             },
-            // {
-            //     route: '#/result',
-            //     title: 'Результаты теста',
-            //     template: 'templates/result.html',
-            //     styles: 'styles/result.css',
-            //     load: () => {
-            //         new Result();
-            //     }
-            // },
-            // {
-            //     route: '#/answers',
-            //     title: 'Ответы теста',
-            //     template: 'templates/answers.html',
-            //     styles: 'styles/answers.css',
-            //     load: () => {
-            //         new Answers();
-            //     }
-            // }
+            {
+                route: '#/createIncExp',
+                title: 'Создать категорию доходов/расходов',
+                template: 'templates/createIncomesExpenses.html',
+                styleOne: 'styles/generalStyle.css',
+                styleTwo: 'styles/income.css',
+                load: () => {
+                    new CreateOperation();
+                }
+            },
         ]
     }
 
@@ -127,7 +116,7 @@ export class Router {
         const urlRoute = window.location.hash.split('?')[0];
 
         if (urlRoute === '#/logout') {
-            Auth.logout();
+            await Auth.logout();
             window.location.href = '#/';
             return;
         }
@@ -142,20 +131,10 @@ export class Router {
             return;
         }
 
-        const userInfo = Auth.getUserInfo();
-        const accessToken = localStorage.getItem(Auth.accessTokenKey);
-
         this.contentElement.innerHTML = await fetch(newRoute.template).then(response => response.text());
         this.stylesElementOne.setAttribute('href', newRoute.styleOne);
         this.stylesElementTwo.setAttribute('href', newRoute.styleTwo);
         this.titleElement.innerText = newRoute.title;
-
-        // if (userInfo && accessToken) {
-        //     this.profileElement.style.display = 'flex';
-        //     this.profileFullNameElement.innerText = userInfo.name;
-        // } else {
-        //     this.profileElement.style.display = 'none';
-        // }
 
         newRoute.load();
     }

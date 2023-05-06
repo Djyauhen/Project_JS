@@ -5,7 +5,6 @@ import config from "../../config/config.js";
 export class Sidebars {
     constructor() {
         const dropdownToggle = document.getElementById('dropdown-toggle');
-        const dropdown = document.getElementsByClassName('dropdown')[0];
         const dropdownMenu = document.getElementById('dropdown-menu');
         const dropdownBtn = document.getElementById('dropdown-button');
         const mainBtn = document.getElementById('mainBtn');
@@ -18,36 +17,7 @@ export class Sidebars {
         const logout = document.getElementById('logout');
         this.balanceProfile = document.getElementById('balance');
         const urlRoute = window.location.hash.split('?')[0];
-
-        delClass();
-        dropdownMenu.style.display = 'none';
-        dropdownBtn.style.transform = 'rotate(-90deg)';
-        logout.style.display = 'none';
-
-        if (urlRoute === "#/main") {
-            mainBtn.classList.add('active');
-        } if (urlRoute === "#/incexp") {
-            incExpBtn.classList.add('active');
-        } if (urlRoute === "#/incomes") {
-            dropdownMenu.style.display = 'flex';
-            dropdownBtn.style.transform = 'rotate(0)';
-            dropdownToggle.classList.add('active');
-            incomesBtn.classList.add('active');
-        } if (urlRoute === "#/expenses") {
-            dropdownMenu.style.display = 'flex';
-            dropdownBtn.style.transform = 'rotate(0)';
-            dropdownToggle.classList.add('active');
-            expenseBtn.classList.add('active');
-        }
-
-
-        if (dropdownToggle.classList.contains('active')) {
-            dropdownMenu.style.display = 'flex';
-            dropdownBtn.style.transform = 'rotate(0deg)';
-        } else {
-            dropdownMenu.style.display = 'none';
-            dropdownBtn.style.transform = 'rotate(-90deg)';
-        }
+        const that = this;
 
 
         const userInfo = Auth.getUserInfo();
@@ -56,57 +26,86 @@ export class Sidebars {
         if (userInfo && accessToken) {
             this.profileNameElement.innerText = userInfo.fullName;
         }
-        const that = this;
+
         this.getBalance().then(data => {
             that.balanceProfile.innerText = data.balance;
         });
 
-        function mainBtnClick() {
-            location.href = '#/main';
+        dropdownMenu.style.display = 'none';
+        dropdownBtn.style.transform = 'rotate(-90deg)';
+        logout.style.display = 'none';
+
+        if (urlRoute === "#/main") {
+            delClass(mainBtn);
+        }
+        if (urlRoute === "#/incexp") {
+            delClass(incExpBtn);
+        }
+        if (urlRoute === "#/incomes") {
+            delClass(incomesBtn);
+        }
+        if (urlRoute === "#/expenses") {
+            delClass(expenseBtn);
         }
 
-        function incExpBtnClick() {
-            location.href = '#/incexp';
-        }
-
-        function incomesBtnClick() {
-            location.href = '#/incomes';
-        }
-
-        function expenseBtnClick() {
-            location.href = '#/expenses';
-        }
-
-        function minimize() {
-            if (dropdownMenu.style.display === 'flex') {
-                dropdownToggle.classList.remove('active');
-                dropdownMenu.style.display = 'none';
-                dropdownBtn.style.transform = 'rotate(-90deg)';
+        function delClass(btn) {
+            for (let i = 0; i < allBtn.length; i++) {
+                if (allBtn[i].classList.contains('active')) {
+                    allBtn[i].classList.remove("active");
+                }
             }
-            else {
+            btn.classList.add('active');
+            if (btn === incomesBtn || btn === expenseBtn) {
                 dropdownToggle.classList.add('active');
                 dropdownMenu.style.display = 'flex';
                 dropdownBtn.style.transform = 'rotate(0deg)';
             }
         }
 
-        function delClass() {
-            for (let i = 0; i < allBtn.length; i++) {
-                if (allBtn[i].classList.contains('active')) {
-                    allBtn[i].classList.remove("active");
-                }
+        function rollUp() {
+            if (dropdownToggle.classList.contains('active')) {
+                dropdownToggle.classList.remove('active');
+                dropdownMenu.style.display = 'none';
+                dropdownBtn.style.transform = 'rotate(-90deg)';
+            } else {
+                dropdownToggle.classList.add('active');
+                dropdownMenu.style.display = 'flex';
+                dropdownBtn.style.transform = 'rotate(0deg)';
             }
         }
 
-        img.onclick = () => {logout.style.display = 'flex'}
+        mainBtn.onclick = () => {
+            location.href = '#/main';
+        };
 
-        logout.onclick = () => {location.href = '#/logout'}
+        incExpBtn.onclick = () => {
+            location.href = '#/incexp';
+        };
 
-        mainBtn.addEventListener('click', mainBtnClick);
-        incomesBtn.addEventListener('click', incomesBtnClick);
-        expenseBtn.addEventListener('click', expenseBtnClick);
-        incExpBtn.addEventListener('click', incExpBtnClick);
-        dropdownToggle.addEventListener("click", minimize);
+        incomesBtn.onclick = () => {
+            location.href = '#/incomes';
+        };
+        expenseBtn.onclick = () => {
+            location.href = '#/expenses';
+        };
+
+        dropdownToggle.onclick = () => {
+            rollUp();
+        }
+
+
+
+        img.onclick = () => {
+           if (logout.style.display !== 'flex') {
+               logout.style.display = 'flex'
+           } else {
+               logout.style.display = 'none'
+           }
+        }
+
+        logout.onclick = () => {
+            location.href = '#/logout'
+        }
     }
 
     async getBalance() {

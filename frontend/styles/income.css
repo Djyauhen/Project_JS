@@ -125,3 +125,8 @@
     background: #115b39;
     color: white;
 }
+
+.create-input {
+    display: flex;
+    flex-direction: column;
+}

@@ -94,7 +94,6 @@
 
 .dropdown-toggle svg {
     margin-left: 65px;
-    transform: rotate(-90deg);
 }
 
 .dropdown-toggle.active {
@@ -102,7 +101,6 @@
 }
 
 .dropdown-menu {
-    display: none;
     margin: 0;
     position: absolute;
     width: 176px;
@@ -155,6 +153,7 @@
     background: #D9D9D9;
     border-radius: 50%;
     margin: 0;
+    cursor: pointer;
 }
 
 .logout {

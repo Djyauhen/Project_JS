@@ -1,3 +1,9 @@
+@import url("incexp.css");
+
+* {
+    margin: 0;
+}
+
 .main {
     margin-left: 218px;
     max-width: 1221px;
@@ -8,11 +14,8 @@
 }
 
 .category-item-action {
+    display: flex;
     margin-bottom: 40px;
-}
-
-.btn {
-    margin: 0;
 }
 
 .action-agree {
@@ -24,7 +27,7 @@
 }
 
 .table-filters .active {
-    background:#6C757D;
+    background: #6C757D;
     border: 1px solid #6C757D;
     color: #FFFFFF;
 }
@@ -50,10 +53,11 @@
 }
 
 .filters-date-btn {
+    width: 85px;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 9px 12px;
+    padding: 9px 0;
     border: 1px solid transparent;
     background-color: transparent;
     font-family: 'Roboto', sans-serif;
@@ -61,6 +65,7 @@
     line-height: 19px;
     color: #6C757D;
     text-decoration: underline;
+    text-align: center;
     margin-right: 15px;
     margin-left: 5px;
 }
@@ -70,6 +75,7 @@
     border-radius: 4px;
     padding: 9px;
     margin-right: 20px;
+    margin-left: 0;
     border: 1px solid #6C757D;
     background-color: transparent;
     font-family: 'Roboto', sans-serif;
@@ -78,27 +84,13 @@
     color: #6C757D;
 }
 
-.grid {
-    border-top: 1px solid #DEE2E6;
-}
-
-
-.row {
-    border-bottom: 1px solid #DEE2E6;
-    padding: 12px 12px;
-}
-
 .table-head {
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
     font-size: 16px;
     line-height: 19px;
     color: #052C65;
-    padding: 15px 15px;
-}
-
-.col {
-    text-align: center;
+    padding: 15px 0;
 }
 
 .table-actions {
@@ -126,6 +118,8 @@ svg {
 
 .line {
     margin-top: 97px;
+    margin-right: 0;
+    margin-left: 0;
     height: 450px;
     border-right: 1px solid #D9D9D9;
 }
@@ -150,6 +144,7 @@ svg {
 }
 
 .canvas {
+    width: 437px;
     margin: 40px 24px;
 }
 

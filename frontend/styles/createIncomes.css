@@ -1,4 +1,6 @@
-.create-input input {
+.create-input #types,
+.create-input input
+{
     width: 397px;
     border-radius: 4px;
     padding: 7px 16px;
@@ -7,6 +9,7 @@
     font-family: 'Roboto', sans-serif;
     font-size: 15px;
     line-height: 24px;
+    margin: 0 0 10px 0;
 }
 
 .create-input input::placeholder {

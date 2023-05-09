@@ -38,7 +38,7 @@ export class Sidebars {
         if (urlRoute === "#/main") {
             delClass(mainBtn);
         }
-        if (urlRoute === "#/incexp") {
+        if (urlRoute === "#/operations") {
             delClass(incExpBtn);
         }
         if (urlRoute === "#/incomes") {
@@ -79,7 +79,7 @@ export class Sidebars {
         };
 
         incExpBtn.onclick = () => {
-            location.href = '#/incexp';
+            location.href = '#/operations';
         };
 
         incomesBtn.onclick = () => {

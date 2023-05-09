@@ -15,7 +15,6 @@ export class CategoriesPage {
             this.createCategoriesTable('expense').then(() => new Popup('expense'));
         }
 
-
         new Sidebars();
     }
 
@@ -43,16 +42,10 @@ export class CategoriesPage {
         const createBtn = document.getElementById('add-category-item');
 
         if (categories === 'income') {
-            function changePageInc() {
-                location.href = "#/createIncCat";
-            }
-            createBtn.addEventListener("click", changePageInc);
+            createBtn.onclick = () => location.href = "#/createIncCat";
         }
         if (categories === 'expense') {
-            function changePageExp() {
-                location.href = "#/createExpCat";
-            }
-            createBtn.addEventListener("click", changePageExp);
+            createBtn.onclick = () => location.href = "#/createExpCat";
         }
     }
 }

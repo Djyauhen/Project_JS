@@ -1,7 +1,6 @@
 import {CustomHttp} from "../service/custom-http.js";
 import {Auth} from "../service/auth.js";
 import config from "../../config/config.js";
-import {Sidebars} from "../service/sidebars.js";
 
 export class Form {
 

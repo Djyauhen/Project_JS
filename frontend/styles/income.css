@@ -126,6 +126,14 @@
     color: white;
 }
 
+.action-agree:disabled {
+    background: #6C757D;
+}
+
+.action-agree:disabled:hover {
+    cursor: not-allowed;
+}
+
 .create-input {
     display: flex;
     flex-direction: column;

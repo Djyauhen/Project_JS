@@ -1,10 +1,12 @@
 import {Form} from "./components/form.js";
 import {Main} from "./components/main.js";
 import {Auth} from "./service/auth.js";
-import {CategoriesPage} from "./components/incomes.js";
+import {CategoriesPage} from "./components/categoriesPage.js";
 import {CreateCategory} from "./components/createCategory.js";
-import {Incexp} from "./components/incexp.js";
+import {ChangeCategory} from "./components/changeCategory.js";
+import {Operations} from "./components/operations.js";
 import {CreateOperation} from "./components/createOperation.js";
+import {ChangeOperation} from "./components/changeOperation.js";
 
 export class Router {
     constructor() {
@@ -48,20 +50,20 @@ export class Router {
             },
 
             {
-                route: '#/incexp',
+                route: '#/operations',
                 title: 'Доходы & Расходы',
-                template: 'templates/incexp.html',
+                template: 'templates/operations.html',
                 styleOne: 'styles/generalStyle.css',
                 styleTwo: 'styles/main.css',
                 load: () => {
-                    new Incexp();
+                    new Operations();
                 }
             },
 
             {
                 route: '#/incomes',
                 title: 'Доходы',
-                template: 'templates/income.html',
+                template: 'templates/categories.html',
                 styleOne: 'styles/generalStyle.css',
                 styleTwo: 'styles/income.css',
                 load: () => {
@@ -72,7 +74,7 @@ export class Router {
             {
                 route: '#/expenses',
                 title: 'Расходы',
-                template: 'templates/income.html',
+                template: 'templates/categories.html',
                 styleOne: 'styles/generalStyle.css',
                 styleTwo: 'styles/income.css',
                 load: () => {
@@ -100,13 +102,43 @@ export class Router {
                 }
             },
             {
-                route: '#/createIncExp',
-                title: 'Создать категорию доходов/расходов',
-                template: 'templates/createIncomesExpenses.html',
+                route: '#/changeIncCat',
+                title: 'Создать категорию расходов',
+                template: 'templates/changeCategory.html',
+                styleOne: 'styles/generalStyle.css',
+                styleTwo: 'styles/income.css',
+                load: () => {
+                    new ChangeCategory();
+                }
+            },
+            {
+                route: '#/changeExpCat',
+                title: 'Создать категорию расходов',
+                template: 'templates/changeCategory.html',
+                styleOne: 'styles/generalStyle.css',
+                styleTwo: 'styles/income.css',
+                load: () => {
+                    new ChangeCategory();
+                }
+            },
+            {
+                route: '#/createOperation',
+                title: 'Создание дохода/расхода',
+                template: 'templates/createOperation.html',
                 styleOne: 'styles/generalStyle.css',
                 styleTwo: 'styles/income.css',
                 load: () => {
                     new CreateOperation();
+                }
+            },
+            {
+                route: '#/changeOperation',
+                title: 'Редактирование дохода/расхода',
+                template: 'templates/createOperation.html',
+                styleOne: 'styles/generalStyle.css',
+                styleTwo: 'styles/income.css',
+                load: () => {
+                    new ChangeOperation();
                 }
             },
         ]

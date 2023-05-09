@@ -100,5 +100,67 @@
     color: #DC3545;
 }
 
+.popup {
+    display: none;
+    background-color: rgba(0, 0, 0, 0.45);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    z-index: 99;
+}
+
+.popup-item {
+    padding: 40px;
+    max-width: 530px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #FFFFFF;
+    border: 1px solid #CED4DA;
+    border-radius: 12px;
+}
+
+.popup-text {
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 23px;
+    text-align: center;
+    color: #290661;
+    margin-bottom: 20px;
+}
+
+.popup-action {
+    display: flex;
+    justify-content: center;
+}
 
 
+
+.action-agree {
+    background: #198754;
+    margin-right: 12px;
+    color: white;
+}
+
+.action-agree:hover {
+    background: #115b39;
+    color: white;
+}
+
+
+.delete-category, .action-disagree {
+    background: #DC3545;
+    margin-right: 12px;
+    color: white;
+}
+
+.delete-category:hover, .action-disagree:hover {
+    background: #96262f;
+    color: white;
+}

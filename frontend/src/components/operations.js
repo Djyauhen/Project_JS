@@ -5,7 +5,7 @@ import {CustomHttp} from "../service/custom-http.js";
 import config from "../../config/config.js";
 
 
-export class Incexp {
+export class Operations {
     constructor() {
         const createIncome = document.getElementById('create-income');
         const createExpense = document.getElementById('create-expense');
@@ -20,7 +20,7 @@ export class Incexp {
         this.table = document.getElementById('table');
 
         today.classList.add('active');
-        this.buildTable(this).then(data => this.onFulfilled(this, data));
+        this.buildTable(this).then();
 
         function delClass(btn) {
             for (let i = 0; i < allBtns.length; i++) {
@@ -34,23 +34,23 @@ export class Incexp {
 
         today.onclick = () => {
             delClass(today);
-            this.buildTable(this, 'today').then(data => this.onFulfilled(this, data));
+            this.buildTable(this, 'today').then()
         };
         week.onclick = () => {
             delClass(week);
-            this.buildTable(this, 'week').then(data => this.onFulfilled(this, data));
+            this.buildTable(this, 'week').then()
         };
         month.onclick = () => {
             delClass(month);
-            this.buildTable(this, 'month').then(data => this.onFulfilled(this, data));
+            this.buildTable(this, 'month').then()
         };
         year.onclick = () => {
             delClass(year);
-            this.buildTable(this, 'year').then(data => this.onFulfilled(this, data));
+            this.buildTable(this, 'year').then()
         };
         all.onclick = () => {
             delClass(all);
-            this.buildTable(this, 'all').then(data => this.onFulfilled(this, data));
+            this.buildTable(this, 'all').then()
         };
         interval.onclick = () => {
             delClass(interval);
@@ -58,30 +58,44 @@ export class Incexp {
             let dateFrom = moment(from, 'DD.MM.YYYY', true).format('YYYY-MM-DD');
             let to = document.getElementById('dateTo').value;
             let dateTo = moment(to, 'DD.MM.YYYY', true).format('YYYY-MM-DD');
-            this.buildTable(this, 'interval', dateFrom, dateTo).then(data => this.onFulfilled(this, data));
+            this.buildTable(this, 'interval', dateFrom, dateTo).then()
         };
         createIncome.onclick = () => {
-            location.href = '#/createIncExp'
+            location.href = '#/createOperation'
         }
         createExpense.onclick = () => {
-            location.href = '#/createIncExp'
+            location.href = '#/createOperation'
         }
         new Sidebars()
     }
 
-    async deleteOperation(operations) {
+    async deleteOperation(that, operations, period, from, to) {
         operations.forEach(operation => {
-            let operationBtn = document.getElementById('delete' + operation.id);
-            operationBtn.onclick = () => a(operation.id);
+            let operationBtn = document.getElementById('delete_' + operation.id);
+            operationBtn.onclick = () => popup(operation.id);
         })
 
+        function popup(id) {
+            const popup = document.getElementById('popup');
+            const agree = document.getElementById('agree');
+            const disagree = document.getElementById('disagree');
+
+            popup.style.display = 'flex';
+            agree.onclick = () => {
+                a(id);
+                popup.style.display = 'none';
+            };
+            disagree.onclick = () => popup.style.display = 'none';
+        }
+
         async function a(id) {
-            console.log(id)
             try {
-                const result = await CustomHttp.request(config.host + '/operations/' + id, 'DELETE')
+                const result = await CustomHttp.request(config.host + '/operations/' + id, 'DELETE');
 
                 if (result) {
                     if (!result.user) {
+                        that.buildTable(that, period, from, to).then();
+                        new Sidebars();
                         throw new Error(result.message);
                     }
                 }
@@ -91,9 +105,13 @@ export class Incexp {
         }
     }
 
-    onFulfilled(that, data) {
-        that.deleteOperation(data);
-        console.log(data);
+    changeOperation(operations) {
+        operations.forEach(operation => {
+            let operationBtn = document.getElementById('change_' + operation.id);
+            operationBtn.onclick = () => {
+                location.href = '#/changeOperation?' + operation.id;
+            };
+        })
     }
 
     async buildTable(that, period, from, to) {
@@ -118,7 +136,7 @@ export class Incexp {
                                     <div class="col date">${date}</div>
                                     <div class="col comm">${operation.comment}</div>
                                     <div class="col twoBtns">
-                                        <button class="delete" id="delete${operation.id}">
+                                        <button class="delete" id="delete_${operation.id}">
                                             <svg width="14" height="15" viewBox="0 0 14 15" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M4.5 5.5C4.77614 5.5 5 5.72386 5 6V12C5 12.2761 4.77614 12.5 4.5 12.5C4.22386 12.5 4 12.2761 4 12V6C4 5.72386 4.22386 5.5 4.5 5.5Z"
@@ -132,7 +150,7 @@ export class Incexp {
                                                         fill="black"/>
                                             </svg>
                                         </button>
-                                        <button class="change" id="change${operation.id}">
+                                        <button class="change" id="change_${operation.id}">
                                              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M12.1465 0.146447C12.3417 -0.0488155 12.6583 -0.0488155 12.8536 0.146447L15.8536 3.14645C16.0488 3.34171 16.0488 3.65829 15.8536 3.85355L5.85357 13.8536C5.80569 13.9014 5.74858 13.9391 5.68571 13.9642L0.68571 15.9642C0.500002 16.0385 0.287892 15.995 0.146461 15.8536C0.00502989 15.7121 -0.0385071 15.5 0.0357762 15.3143L2.03578 10.3143C2.06092 10.2514 2.09858 10.1943 2.14646 10.1464L12.1465 0.146447ZM11.2071 2.5L13.5 4.79289L14.7929 3.5L12.5 1.20711L11.2071 2.5ZM12.7929 5.5L10.5 3.20711L4.00001 9.70711V10H4.50001C4.77616 10 5.00001 10.2239 5.00001 10.5V11H5.50001C5.77616 11 6.00001 11.2239 6.00001 11.5V12H6.29291L12.7929 5.5ZM3.03167 10.6755L2.92614 10.781L1.39754 14.6025L5.21903 13.0739L5.32456 12.9683C5.13496 12.8973 5.00001 12.7144 5.00001 12.5V12H4.50001C4.22387 12 4.00001 11.7761 4.00001 11.5V11H3.50001C3.28561 11 3.10272 10.865 3.03167 10.6755Z"
@@ -156,7 +174,8 @@ export class Incexp {
             }
         }
 
-        return operations;
+        that.deleteOperation(that, operations, period, from, to);
+        that.changeOperation(operations);
     }
 
 }

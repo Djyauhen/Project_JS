@@ -1,21 +1,23 @@
 import {CustomHttp} from "../service/custom-http.js";
 import config from "../../config/config.js";
-import {locale} from "moment/moment";
 
 export class CreateCategory {
     constructor() {
         this.title = document.getElementById('main-header');
         const urlRoute = window.location.hash.split('?')[0];
         const agreeBtn = document.getElementById('agree');
+        const disagreeBtn = document.getElementById('disagree');
         const that = this;
 
 
         if (urlRoute === '#/createIncCat'){
             this.title.innerText = 'Создание категории доходов';
             agreeBtn.onclick = createInc;
+            disagreeBtn.onclick = () => {location.href = '#/incomes'}
         } if (urlRoute === '#/createExpCat') {
             this.title.innerText = 'Создание категории расходов';
             agreeBtn.onclick = createExp;
+            disagreeBtn.onclick = () => {location.href = '#/expenses'}
         }
 
         function createExp() {
